@@ -66,8 +66,8 @@ addContextMenuPatch("textarea-context", children => {
                 <>
                     {corrections.map(c => (
                         <Menu.MenuItem
-                            key={`vcd-spellcheck-suggestion-${c}`}
-                            id={`vcd-spellcheck-suggestion-${c}`}
+                            key={c}
+                            id={"vcd-spellcheck-suggestion-" + c}
                             label={c}
                             action={() => VesktopNative.spellcheck.replaceMisspelling(c)}
                         />
@@ -76,14 +76,12 @@ addContextMenuPatch("textarea-context", children => {
                     <Menu.MenuItem
                         key="vcd-spellcheck-learn"
                         id="vcd-spellcheck-learn"
-                        label={`Add "${word}" to dictionary`}
+                        label={`Add ${word} to dictionary`}
                         action={() => VesktopNative.spellcheck.addToDictionary(word)}
                     />
                     <Menu.MenuSeparator key="vcd-spellcheck-separator-2" />
                 </>
             )}
-
-            {/* Primary toggle - directly accessible for best UX */}
             <Menu.MenuCheckboxItem
                 key="vcd-spellcheck-enabled"
                 id="vcd-spellcheck-enabled"
@@ -94,7 +92,6 @@ addContextMenuPatch("textarea-context", children => {
                 }}
             />
 
-            {/* Language settings in submenu - less frequently used */}
             <Menu.MenuItem
                 key="vcd-spellcheck-languages"
                 id="vcd-spellcheck-languages"
@@ -105,8 +102,8 @@ addContextMenuPatch("textarea-context", children => {
                     const isEnabled = spellCheckLanguages.includes(lang);
                     return (
                         <Menu.MenuCheckboxItem
-                            key={`vcd-spellcheck-lang-${lang}`}
-                            id={`vcd-spellcheck-lang-${lang}`}
+                            key={lang}
+                            id={"vcd-spellcheck-lang-" + lang}
                             label={lang}
                             checked={isEnabled}
                             disabled={!isEnabled && spellCheckLanguages.length >= 5}
