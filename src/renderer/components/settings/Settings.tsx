@@ -66,19 +66,19 @@ const SettingsOptions: Record<string, Array<BooleanSetting | SettingsComponent>>
             key: "enableMenu",
             title: "Enable Menu Bar",
             description: "Enables the application menu bar. Press ALT to toggle visibility.",
-            disabled: () => Settings.store.nativeTitleBar !== true
+            disabled: () => !Settings.store.nativeTitleBar
         },
         {
             key: "enableShadow",
             title: "Enable Window Shadow",
             description: "Enables the window shadow. Requires a full restart.",
-            disabled: () => Settings.store.nativeTitleBar === true
+            disabled: () => Settings.store.nativeTitleBar
         },
         {
             key: "enableRoundedCorners",
             title: "Enable Rounded Corners",
             description: "Enables rounded corners. Requires a full restart.",
-            disabled: () => Settings.store.nativeTitleBar === true
+            disabled: () => Settings.store.nativeTitleBar
         },
         {
             key: "enableSplashScreen",
