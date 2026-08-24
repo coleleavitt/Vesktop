@@ -344,12 +344,11 @@ function buildBrowserWindowOptions(): BrowserWindowConstructorOptions {
 
     const { transparent, macosVibrancyStyle } = VencordSettings.store;
 
-    const frameless = nativeTitleBar !== true;
-    const backgroundColor =
-        splashTheming !== false ? splashBackground : nativeTheme.shouldUseDarkColors ? "#313338" : "#ffffff";
+    const frameless = !nativeTitleBar;
+    const backgroundColor = splashTheming ? splashBackground : nativeTheme.shouldUseDarkColors ? "#313338" : "#ffffff";
 
     const options: BrowserWindowConstructorOptions = {
-        show: Settings.store.enableSplashScreen === false && !CommandLine.values["start-minimized"],
+        show: !Settings.store.enableSplashScreen && !CommandLine.values["start-minimized"],
         backgroundColor,
         webPreferences: {
             nodeIntegration: false,
@@ -363,8 +362,8 @@ function buildBrowserWindowOptions(): BrowserWindowConstructorOptions {
         },
         frame: !frameless,
         autoHideMenuBar: enableMenu,
-        hasShadow: enableShadow !== false,
-        roundedCorners: enableRoundedCorners !== false,
+        hasShadow: enableShadow,
+        roundedCorners: enableRoundedCorners,
         ...getWindowBoundsOptions()
     };
 
@@ -410,7 +409,7 @@ function createMainWindow() {
     if (process.platform === "darwin" && Settings.store.nativeTitleBar) win.setWindowButtonVisibility(false);
 
     win.on("close", e => {
-        const useTray = !isDeckGameMode && Settings.store.minimizeToTray !== false && Settings.store.tray !== false;
+        const useTray = !isDeckGameMode && Settings.store.minimizeToTray && Settings.store.tray;
         if (isQuitting || (process.platform !== "darwin" && !useTray)) return;
 
         e.preventDefault();
@@ -470,7 +469,7 @@ export async function createWindows() {
     const startMinimized = CommandLine.values["start-minimized"];
 
     let splash: BrowserWindow | undefined;
-    if (Settings.store.enableSplashScreen !== false) {
+    if (Settings.store.enableSplashScreen) {
         splash = createSplashWindow(startMinimized);
 
         // SteamOS letterboxes and scales it terribly, so just full screen it
