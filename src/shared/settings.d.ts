@@ -30,7 +30,7 @@ export interface Settings {
     enableTaskbarFlashing?: boolean;
     disableMinSize?: boolean;
     clickTrayToShowHide?: boolean;
-    customTitleBar?: boolean;
+    nativeTitleBar?: boolean;
 
     enableSplashScreen?: boolean;
     splashTheming?: boolean;

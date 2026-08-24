@@ -337,14 +337,14 @@ function buildBrowserWindowOptions(): BrowserWindowConstructorOptions {
         enableMenu,
         enableShadow,
         enableRoundedCorners,
-        customTitleBar,
+        nativeTitleBar,
         splashTheming,
         splashBackground
     } = Settings.store;
 
-    const { frameless, transparent, macosVibrancyStyle } = VencordSettings.store;
+    const { transparent, macosVibrancyStyle } = VencordSettings.store;
 
-    const noFrame = frameless === true || customTitleBar === true;
+    const frameless = nativeTitleBar !== true;
     const backgroundColor =
         splashTheming !== false ? splashBackground : nativeTheme.shouldUseDarkColors ? "#313338" : "#ffffff";
 
@@ -361,7 +361,7 @@ function buildBrowserWindowOptions(): BrowserWindowConstructorOptions {
             // disable renderer backgrounding to prevent the app from unloading when in the background
             backgroundThrottling: false
         },
-        frame: !noFrame,
+        frame: !frameless,
         autoHideMenuBar: enableMenu,
         hasShadow: enableShadow !== false,
         roundedCorners: enableRoundedCorners !== false,
@@ -377,7 +377,7 @@ function buildBrowserWindowOptions(): BrowserWindowConstructorOptions {
         options.backgroundColor = "#00000000";
         options.backgroundMaterial = transparencyOption;
 
-        if (customTitleBar) {
+        if (frameless) {
             options.transparent = true;
         }
     }
@@ -407,7 +407,7 @@ function createMainWindow() {
     const win = (mainWin = new BrowserWindow(buildBrowserWindowOptions()));
 
     win.setMenuBarVisibility(false);
-    if (process.platform === "darwin" && Settings.store.customTitleBar) win.setWindowButtonVisibility(false);
+    if (process.platform === "darwin" && Settings.store.nativeTitleBar) win.setWindowButtonVisibility(false);
 
     win.on("close", e => {
         const useTray = !isDeckGameMode && Settings.store.minimizeToTray !== false && Settings.store.tray !== false;

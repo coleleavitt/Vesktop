@@ -11,7 +11,7 @@ import { BaseText, Divider, ErrorBoundary } from "@vencord/types/components";
 import { ComponentType } from "react";
 import { WebRTCIPHandlingPolicyPicker } from "renderer/components/settings/WebRTCIPHandlingPolicyPicker";
 import { Settings, useSettings } from "renderer/settings";
-import { isMac, isWindows } from "renderer/utils";
+import { isMac } from "renderer/utils";
 
 import { AutoStartToggle } from "./AutoStartToggle";
 import { DeveloperOptionsButton } from "./DeveloperOptions";
@@ -56,10 +56,10 @@ const SettingsOptions: Record<string, Array<BooleanSetting | SettingsComponent>>
     ],
     "User Interface": [
         {
-            key: "customTitleBar",
-            title: "Discord Titlebar",
-            description: "Use Discord's custom title bar instead of the native system one. Requires a full restart.",
-            defaultValue: isWindows
+            key: "nativeTitleBar",
+            title: "Native Titlebar",
+            description: "Enable the system titlebar in addition to Discord's custom one. Requires a full restart.",
+            defaultValue: false
         },
         {
             key: "staticTitle",
@@ -72,21 +72,21 @@ const SettingsOptions: Record<string, Array<BooleanSetting | SettingsComponent>>
             title: "Enable Menu Bar",
             description: "Enables the application menu bar. Press ALT to toggle visibility.",
             defaultValue: false,
-            disabled: () => Settings.store.customTitleBar ?? isWindows
+            disabled: () => Settings.store.nativeTitleBar !== true
         },
         {
             key: "enableShadow",
             title: "Enable Window Shadow",
             description: "Enables the window shadow. Requires a full restart.",
             defaultValue: true,
-            disabled: () => Settings.store.customTitleBar !== true
+            disabled: () => Settings.store.nativeTitleBar === true
         },
         {
             key: "enableRoundedCorners",
             title: "Enable Rounded Corners",
             description: "Enables rounded corners. Requires a full restart.",
             defaultValue: true,
-            disabled: () => Settings.store.customTitleBar !== true
+            disabled: () => Settings.store.nativeTitleBar === true
         },
         {
             key: "enableSplashScreen",
