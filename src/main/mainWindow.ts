@@ -156,6 +156,25 @@ function initMenuBar(win: BrowserWindow) {
             accelerator: "CmdOrCtrl+=",
             role: "zoomIn",
             visible: false
+        },
+        // numpad zooms
+        {
+            label: "Zoom in (hidden)",
+            accelerator: "CmdOrCtrl+numadd",
+            role: "zoomIn",
+            visible: false
+        },
+        {
+            label: "Zoom out (hidden)",
+            accelerator: "CmdOrCtrl+numsub",
+            role: "zoomOut",
+            visible: false
+        },
+        {
+            label: "Reset Zoom (hidden)",
+            accelerator: "CmdOrCtrl+num0",
+            role: "resetZoom",
+            visible: false
         }
     ] satisfies MenuItemList;
 
