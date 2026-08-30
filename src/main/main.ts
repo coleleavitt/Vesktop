@@ -62,16 +62,11 @@ function init() {
     // work around chrome 66 disabling autoplay by default
     app.commandLine.appendSwitch("autoplay-policy", "no-user-gesture-required");
 
-    // WinRetrieveSuggestionsOnlyOnDemand: Work around electron 13 bug w/ async spellchecking on Windows.
-    // HardwareMediaKeyHandling, MediaSessionService: Prevent Discord from registering as a media service.
-    disabledFeatures.add("WinRetrieveSuggestionsOnlyOnDemand");
+    // Prevent Discord from registering as a media service.
     disabledFeatures.add("HardwareMediaKeyHandling");
     disabledFeatures.add("MediaSessionService");
 
     if (isLinux) {
-        // Support TTS on Linux using https://wiki.archlinux.org/title/Speech_dispatcher
-        app.commandLine.appendSwitch("enable-speech-dispatcher");
-
         // This is needed to fix washed out colours - https://github.com/electron/electron/issues/49566
         // Supposed to be fixed already according to comments there, but it's just not lol, I can repro on Electron 43.0.0
         // when moving the window from my main monitor (HDR - not sure if this is relevant lol) to second monitor (SDR) and back
@@ -80,8 +75,8 @@ function init() {
 
     disabledFeatures.forEach(feat => enabledFeatures.delete(feat));
 
-    const enabledFeaturesArray = enabledFeatures.values().filter(Boolean).toArray();
-    const disabledFeaturesArray = disabledFeatures.values().filter(Boolean).toArray();
+    const enabledFeaturesArray = [...enabledFeatures].filter(Boolean);
+    const disabledFeaturesArray = [...disabledFeatures].filter(Boolean);
 
     if (enabledFeaturesArray.length) {
         app.commandLine.appendSwitch("enable-features", enabledFeaturesArray.join(","));
